@@ -13,6 +13,14 @@ def executar_sql_script(conexao, caminho_sql):
     cursor.executescript(sql_script)
     conexao.commit()
 
+def insert_tabelas (conexao):
+    cursor = conexao.cursor()
+    #insert produtos
+    #cursor.execute('INSERT INTO alunos (ID,nome, idade, curso) VALUES (1,"Raquel Morais", 19, "Nutrição")')        #continuar
+
+
+    conexao.commit()
+
 def main():
     # Nome do banco de dados SQLite 
     nome_banco = 'mercado.db'
@@ -27,6 +35,8 @@ def main():
     # Executando scripts SQL
     executar_sql_script(conn, produto_sql)
     executar_sql_script(conn, transacao_sql)
+    insert_tabelas(conn)
+
 
     # Fechando a conexão
     conn.close()
