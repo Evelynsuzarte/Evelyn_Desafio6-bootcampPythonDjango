@@ -16,7 +16,10 @@ def executar_sql_script(conexao, caminho_sql):
 def insert_tabelas (conexao):
     cursor = conexao.cursor()
     #insert produtos
-    #cursor.execute('INSERT INTO alunos (ID,nome, idade, curso) VALUES (1,"Raquel Morais", 19, "Nutrição")')        #continuar
+    cursor.execute('INSERT INTO Produto (id_produto, nome, qtnd_disponivel, preco, id_categoria, id_fornecedor) VALUES (1,"Teclado Gamer", 20, 120.10, 1, 1)')
+    cursor.execute('INSERT INTO Transacao (id_transacao, qtnd_produto, valor_total, data_transacao, id_cliente, id_produto) VALUES ()')
+    cursor.execute('INSERT INTO Cliente')
+    cursor.execute('INSERT INTO Fornecedor')
 
 
     conexao.commit()
