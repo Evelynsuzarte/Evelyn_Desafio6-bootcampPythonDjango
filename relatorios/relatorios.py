@@ -1,10 +1,9 @@
-
 class Relatorios:
     def __init__(self, banco):
         self.banco = banco
 
     def _connect(self):
-        return self.banco._connect()
+        return self.banco
 
     """LISTAR PRODUTOS EM ESTOQUE"""
     def listar_produtos_em_estoque(self):
@@ -12,13 +11,10 @@ class Relatorios:
         cursor = conn.cursor()
         
         cursor.execute('''
-        SELECT * FROM produto WHERE quantidade_disponivel > 0
+        SELECT * FROM produto WHERE qtnd_disponivel > 0
         ''')
         
-        return cursor.fetchall()
-
-    def listar_produtos_em_estoque(self):
-        produtos = self.banco.listar_produtos_em_estoque()
+        produtos = cursor.fetchall()
         for produto in produtos:
             print(produto)
 
@@ -31,10 +27,7 @@ class Relatorios:
         SELECT * FROM transacao WHERE id_cliente = ?
         ''', (id_cliente,))
         
-        return cursor.fetchall()
-
-    def listar_vendas_cliente(self, id_cliente):
-        vendas_cliente = self.banco.listar_vendas_cliente(id_cliente)
+        vendas_cliente = cursor.fetchall()
         for venda in vendas_cliente:
             print(venda)
 
@@ -44,33 +37,31 @@ class Relatorios:
         cursor = conn.cursor()
         
         cursor.execute('''
-        SELECT c.nome, t.valor_total FROM transacao t 
+        SELECT c.nome, SUM(t.valor_total) AS total_vendas 
+        FROM transacao t 
         INNER JOIN produto p ON t.id_produto = p.id_produto
-        INNER JOIN  categoria c ON p.id_categoria = c.id_categoria
-        ORDER BY t.valor_total DESC 
+        INNER JOIN categoria c ON p.id_categoria = c.id_categoria
+        GROUP BY c.nome
+        ORDER BY total_vendas DESC
         ''')
         
-        return cursor.fetchall()
-
-    def listar_total_vendas_categoria(self):
-        categorias = self.banco.listar_total_vendas_categoria()
+        categorias = cursor.fetchall()
         for categoria in categorias:
             print(categoria)
 
-    """PRODUTOS MAIS VENDIDOS"""
+    """PRODUTOS MAIS VENDIDOS""" 
     def listar_produtos_mais_vendidos(self):
         conn = self._connect()
         cursor = conn.cursor()
 
         cursor.execute('''
-        SELECT p.nome, SUM(t.valor_total) FROM transacao t 
+        SELECT p.nome, SUM(t.valor_total) AS total_vendas 
+        FROM transacao t 
         INNER JOIN produto p ON t.id_produto = p.id_produto 
-        ORDER BY t.valor_total DESC''')
-
-        return cursor.fetchall()
-
-    def listar_produtos_mais_vendidos(self):
-        produtos = self.banco.listar_produtos_mais_vendidos()
+        GROUP BY p.nome
+        ORDER BY total_vendas DESC
+        ''')
+        
+        produtos = cursor.fetchall()
         for produto in produtos:
             print(produto)
-    
