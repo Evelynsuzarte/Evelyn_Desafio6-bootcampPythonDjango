@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS transacao (
-    id_transacao INT PRIMARY KEY AUTOINCREMENT,
+    id_transacao INT PRIMARY KEY,
     qtnd_produto INT, 
     valor_total FLOAT,
     data_transacao DATE,
