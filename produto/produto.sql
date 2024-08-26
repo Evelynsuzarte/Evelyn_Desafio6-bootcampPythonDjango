@@ -1,5 +1,5 @@
-CREATE TABLE Produto (
-    id_produto INT PRIMARY KEY,
+CREATE TABLE IF NOT EXISTS produto (
+    id_produto INT PRIMARY KEY AUTOINCREMENT,
     nome VARCHAR (100),
     qtnd_disponivel INT,
     preco FLOAT,

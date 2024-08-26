@@ -1,5 +1,5 @@
-CREATE TABLE Transacao (
-    id_transacao INT PRIMARY KEY,
+CREATE TABLE IF NOT EXISTS transacao (
+    id_transacao INT PRIMARY KEY AUTOINCREMENT,
     qtnd_produto INT, 
     valor_total FLOAT,
     data_transacao DATE,
