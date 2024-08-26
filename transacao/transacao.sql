@@ -1,4 +1,4 @@
-CREATE TABLE Transacao (
+CREATE TABLE IF NOT EXISTS transacao (
     id_transacao INT PRIMARY KEY,
     qtnd_produto INT, 
     valor_total FLOAT,

@@ -13,16 +13,15 @@ def executar_sql_script(conexao, caminho_sql):
     cursor.executescript(sql_script)
     conexao.commit()
 
-def insert_tabelas (conexao):
-    cursor = conexao.cursor()
-    #insert produtos
-    cursor.execute('INSERT INTO Produto (id_produto, nome, qtnd_disponivel, preco, id_categoria, id_fornecedor) VALUES (1,"Teclado Gamer", 20, 120.10, 1, 1)')
-    cursor.execute('INSERT INTO Transacao (id_transacao, qtnd_produto, valor_total, data_transacao, id_cliente, id_produto) VALUES ()')
-    cursor.execute('INSERT INTO Cliente')
-    cursor.execute('INSERT INTO Fornecedor')
+# def insert_tabelas (conexao):
+#     cursor = conexao.cursor()
+#     #insert produtos
+#     cursor.execute('INSERT INTO produto (id_produto, nome, qtnd_disponivel, preco, id_categoria, id_fornecedor) VALUES (1,"Teclado Gamer", 20, 120.10, 1, 1)')
+#     cursor.execute('INSERT INTO transacao (id_transacao, qtnd_produto, valor_total, data_transacao, id_cliente, id_produto) VALUES ()')
+#     cursor.execute('INSERT INTO cliente')
+#     cursor.execute('INSERT INTO fornecedor')
 
-
-    conexao.commit()
+#     conexao.commit()
 
 def main():
     # Nome do banco de dados SQLite 
@@ -32,13 +31,19 @@ def main():
     conn = connectar_ao_banco(nome_banco)
 
     # Diretórios onde estão os scripts SQL  
+    categoria_sql = 'categoria/categoria.sql'
+    fornecedor_sql = 'fornecedor/fornecedor.sql'
+    cliente_sql = 'cliente/cliente.sql'
     produto_sql = 'produto/produto.sql'
     transacao_sql = 'transacao/transacao.sql'
     
     # Executando scripts SQL
+    executar_sql_script(conn, categoria_sql)
+    executar_sql_script(conn, fornecedor_sql)
+    executar_sql_script(conn, cliente_sql)
     executar_sql_script(conn, produto_sql)
     executar_sql_script(conn, transacao_sql)
-    insert_tabelas(conn)
+    # insert_tabelas(conn)
 
 
     # Fechando a conexão

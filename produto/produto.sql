@@ -1,4 +1,4 @@
-CREATE TABLE Produto (
+CREATE TABLE IF NOT EXISTS produto (
     id_produto INT PRIMARY KEY,
     nome VARCHAR (100),
     qtnd_disponivel INT,
