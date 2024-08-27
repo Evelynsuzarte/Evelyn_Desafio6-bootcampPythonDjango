@@ -20,20 +20,32 @@ def insert_tabelas (conexao):
     #insert categorias
     cursor.execute('INSERT OR IGNORE INTO categoria (id_categoria, nome) VALUES (1, "Perifericos")')
     cursor.execute('INSERT OR IGNORE INTO categoria (id_categoria, nome) VALUES (2, "Eletronicos")')
+    cursor.execute('INSERT OR IGNORE INTO categoria (id_categoria, nome) VALUES (3, "Cabos e Adaptadores")')
+    cursor.execute('INSERT OR IGNORE INTO categoria (id_categoria, nome) VALUES (4, "Armazenamento")')
     
     #insert fornecedores
     cursor.execute('INSERT OR IGNORE INTO fornecedor (id_fornecedor, nome) VALUES (1, "Razer")')
     cursor.execute('INSERT OR IGNORE INTO fornecedor (id_fornecedor, nome) VALUES (2, "Logitech")')
+    cursor.execute('INSERT OR IGNORE INTO fornecedor (id_fornecedor, nome) VALUES (3, "Samsung")')
+    cursor.execute('INSERT OR IGNORE INTO fornecedor (id_fornecedor, nome) VALUES (4, "Dell")')
+    cursor.execute('INSERT OR IGNORE INTO fornecedor (id_fornecedor, nome) VALUES (5, "HP")')
     
     #insert produtos
     cursor.execute('INSERT OR IGNORE INTO produto (id_produto, nome, qtnd_disponivel, preco, id_categoria, id_fornecedor) VALUES (1,"Teclado Gamer", 20, 120.10, 1, 1)')
     cursor.execute('INSERT OR IGNORE INTO produto (id_produto, nome, qtnd_disponivel, preco, id_categoria, id_fornecedor) VALUES (2,"Mouse Gamer", 30, 80.50, 1, 2)')
     cursor.execute('INSERT OR IGNORE INTO produto (id_produto, nome, qtnd_disponivel, preco, id_categoria, id_fornecedor) VALUES (3,"Monitor", 30, 800.50, 2, 1)')
+    cursor.execute('INSERT OR IGNORE INTO produto (id_produto, nome, qtnd_disponivel, preco, id_categoria, id_fornecedor) VALUES (4,"HD Externo", 40, 300.00, 4, 3)')
+    cursor.execute('INSERT OR IGNORE INTO produto (id_produto, nome, qtnd_disponivel, preco, id_categoria, id_fornecedor) VALUES (5,"SSD", 50, 400.00, 4, 4)')
+    cursor.execute('INSERT OR IGNORE INTO produto (id_produto, nome, qtnd_disponivel, preco, id_categoria, id_fornecedor) VALUES (6,"Cabo HDMI", 60, 20.00, 3, 5)')
+    cursor.execute('INSERT OR IGNORE INTO produto (id_produto, nome, qtnd_disponivel, preco, id_categoria, id_fornecedor) VALUES (7,"Adaptador USB", 70, 10.00, 3, 5)')
+    cursor.execute('INSERT OR IGNORE INTO produto (id_produto, nome, qtnd_disponivel, preco, id_categoria, id_fornecedor) VALUES (8,"Pen Drive", 80, 30.00, 4, 4)')
     
     #insert clientes
     cursor.execute('INSERT OR IGNORE INTO cliente (id_cliente, nome, telefone, endereco) VALUES (1, "João", "47997505577","Rua das Flores, 123")')
     cursor.execute('INSERT OR IGNORE INTO cliente (id_cliente, nome, telefone,endereco) VALUES (2, "Maria", "47997505577","Rua das Árvores, 321")')
-    cursor.execute('INSERT OR IGNORE INTO cliente (id_cliente, nome, telefone,endereco) VALUES (3, "Fernanda", "47997505588","Rua das Plantas, 421")')
+    cursor.execute('INSERT OR IGNORE INTO cliente (id_cliente, nome, telefone,endereco) VALUES (3, "Fernanda", "47997505588","Rua das Plantas, 864")')
+    cursor.execute('INSERT OR IGNORE INTO cliente (id_cliente, nome, telefone,endereco) VALUES (4, "Cláudia", "47997505599","Rua das Pedras, 522")')
+    cursor.execute('INSERT OR IGNORE INTO cliente (id_cliente, nome, telefone,endereco) VALUES (5, "Lucas", "47997505500","Avenida Santos, 117")')
                           
     conexao.commit()
 
@@ -61,7 +73,7 @@ def main():
     
     transacao =  Transacao(conn)
     """Realizar transação: Ordem dos parâmetros: id_transacao, quantidade, id_cliente, id_produto"""
-    transacao.realizar_transacao(5, 6, 2, 3)
+    # transacao.realizar_transacao(6, 2, 4, 8)
     
     relatorios = rel(conn)
     print("- - - PRODUTOS EM ESTOQUE - - -")
@@ -69,8 +81,9 @@ def main():
     print()
     
     print("- - - VENDAS POR CLIENTE - - -")
-    relatorios.listar_vendas_cliente(1)
-    relatorios.listar_vendas_cliente(2)
+    for cliente in conn.execute('SELECT id_cliente, nome FROM cliente'):
+        print(f'Cliente: {cliente[1]}')
+        relatorios.listar_vendas_cliente(cliente[0])       
     print()
     
     print("- - - VENDAS POR CATEGORIA - - -")
@@ -79,7 +92,9 @@ def main():
     
     print("- - - PRODUTOS MAIS VENDIDOS - - -")
     relatorios.listar_produtos_mais_vendidos()
+    print()
     
+    print("- - - EXLCUIR CLIENTE - - -")
     #excluindo cliente
     excluir_cliente(conn, 3)
 
